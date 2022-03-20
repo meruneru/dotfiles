@@ -1,0 +1,67 @@
+
+function cd {
+    case $1 in
+        "")
+            pushd $HOME > /dev/null
+            ;;
+        "-")
+            [ $# -eq 1 ] &&[ `dirs | wc -w` -gt 1 ] && popd > /dev/null
+            [ $# -eq 2 ] && pushd +$2 > /dev/null
+            ;;
+        "")
+            [ -d $1 ] && pushd $1 > /dev/null
+            ;;
+        *)
+            [ -d $1 ] && pushd $1 > /dev/null
+            ;;
+    esac
+}
+
+function p {
+	now=`pwd`
+	cnt=`dirs -v|wc --lines`
+	for i in `seq 1 $cnt`
+	do
+		popd >& /dev/null
+	done
+	cd "$now"
+}
+alias d='dirs -v'
+
+alias cd1='cd ../'
+alias cd2='cd ../../'
+alias cd3='cd ../../../'
+alias cd4='cd ../../../../'
+alias cd5='cd ../../../../../'
+
+alias l='ls -FG'
+alias la='ls -aFG'
+alias ll='ls -lhFG'
+alias ls='ls -FG'
+
+alias v='view'
+alias df='df -h'
+alias eman='LANG=C man'
+
+alias w3m='w3m google.com'
+
+alias ctags="`brew --prefix`/bin/ctags"
+
+alias t='./onLin.sh make; ./onLin.sh make test'
+
+# script record
+alias rec='script -aq $(date "+%Y%m%d-%H-%M")-termlog.txt'
+
+# neovim
+alias vi='nvim'
+alias vim='nvim'
+# atcoder
+# https://zenn.dev/bun913/articles/573790d7e5b1a4
+alias ojsubmit="acc s ./main.cpp"
+alias ojtestgo="oj t -c \"go run ./main.go\" -d tests/"
+alias ojtest="g++ -std=c++17 ./main.cpp; oj t -c \"./a.out\" -d tests/"
+alias ojbuild="g++ -std=c++17 ./main.cpp"
+alias addgo="cp /Users/meruneru/go/src/work/template.go ./main.go"
+alias addc++="cp /Users/meruneru/go/src/work/template.cpp ./main.cpp"
+
+alias chrome="open /Applications/Google\ Chrome.app"

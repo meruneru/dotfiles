@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -e
+
+# check shell zsh or not
+if [ "$(dscl . -read ~/ UserShell)" = "UserShell: /bin/bash" ]; then
+    chsh -s /bin/zsh
+    chmod -R 755 /usr/local/share/zsh
+    chown -R root:staff zsh
+fi
+
+# check brew alread installed
+if [ ! -f /usr/local/bin/brew ]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+fi
+
+CLONE_PATH=~/dotfiles
+if [ ! -d $CLONE_PATH ]; then
+    cd ~/
+    git clone https://github.com/meruneru/dotfiles.git
+fi
+
+
+# Execute Brew install
+brew bundle -v --file $CLONE_PATH/Brewfile
+
+if [ ! -d ~/.config ]; then
+    mkdir ~/.config
+fi
+
+# Install config files
+stow -v -d "$CLONE_PATH"/packages -t $HOME zsh tmux
+
+# for neovim
+if [ ! -d ~/.config/nvim ]; then
+    mkdir ~/.config/nvim
+    stow -v -d "$CLONE_PATH"/packages -t $HOME/.config/nvim nvim
+fi
+
