@@ -2,6 +2,8 @@
 
 set -e
 
+#--------------------------------------------------------------------
+# Run only for the first time for building environment. 
 # check shell zsh or not
 if [ "$(dscl . -read ~/ UserShell)" = "UserShell: /bin/bash" ]; then
     chsh -s /bin/zsh
@@ -19,7 +21,7 @@ if [ ! -d $CLONE_PATH ]; then
     cd ~/
     git clone https://github.com/meruneru/dotfiles.git
 fi
-
+#--------------------------------------------------------------------
 
 # Execute Brew install
 brew bundle -v --file $CLONE_PATH/Brewfile
